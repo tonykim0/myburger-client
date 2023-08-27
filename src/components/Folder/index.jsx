@@ -1,14 +1,12 @@
 import styled from "styled-components";
 
-function Folder({ name, onClick }) {
-  return (
-    <FolderContainer onClick={onClick}>{name}Sample Folder</FolderContainer>
-  );
+function Folder() {
+  return <FolderContainer>My Folder</FolderContainer>;
 }
 
 const FolderContainer = styled.div`
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
   margin-bottom: 10px;
   cursor: pointer;
 
