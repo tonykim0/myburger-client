@@ -6,13 +6,8 @@ import Main from "../components/Main";
 import axios from "axios";
 
 function App() {
-  const [contents, setContents] = useState([
-    { id: "1", type: "text", text: "First content", date: new Date() },
-    { id: "2", type: "image", imageURL: "IMG_0449.jpg", date: new Date() },
-  ]);
-
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const folderName = "Sample Folder";
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token");
@@ -36,6 +31,7 @@ function App() {
 
         if (response.data && response.data.success) {
           setIsAuthenticated(true);
+          setUserId(response.data.userId);
         } else {
           setIsAuthenticated(false);
         }
@@ -48,12 +44,7 @@ function App() {
     validateToken();
   }, []);
 
-  const handleDelete = (id) => {
-    const newContents = contents.filter((content) => content.id !== id);
-    setContents(newContents);
-  };
-
-  const handleLogout = () => {};
+  function handleLogout() {}
 
   if (isAuthenticated === null) {
     return <p>Loading...</p>;
@@ -69,14 +60,10 @@ function App() {
 
   return (
     <AppContainer>
-      <Navbar />
+      <Navbar onLogout={handleLogout} />
       <ContentContainer>
-        <Sidebar onLogout={handleLogout} />
-        <Main
-          folderName={folderName}
-          contents={contents}
-          onDelete={handleDelete}
-        />
+        <Sidebar />
+        <Main userId={userId} />
       </ContentContainer>
     </AppContainer>
   );

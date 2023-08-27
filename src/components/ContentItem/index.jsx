@@ -1,38 +1,60 @@
 import styled from "styled-components";
+import deleteIcon from "../../assets/trash-can.png";
 
 function ContentItem({ content, onDelete }) {
+  function handleDelete(event) {
+    event.preventDefault();
+    onDelete(content._id);
+  }
+
   return (
     <ContentItemContainer>
-      {content.type === "text" ? (
-        <p>{content.text}</p>
-      ) : (
-        <ContentImage src={content.imageURL} alt="Content" />
-      )}
-      <DeleteButton onClick={() => onDelete(content.id)}>Delete</DeleteButton>
+      <ContentText>
+        <CopiedText>{content.data}</CopiedText>
+        {content.url && content.title && (
+          <>
+            Source :{" "}
+            <a href={content.url} target="_blank" rel="noopener noreferrer">
+              {content.title}
+            </a>
+          </>
+        )}
+      </ContentText>
+      <DeleteButton onClick={handleDelete}>
+        <img src={deleteIcon} alt="Delete" />
+      </DeleteButton>
     </ContentItemContainer>
   );
 }
 
 const ContentItemContainer = styled.div`
-  border: 1px solid #ddd;
-  padding: 10px;
+  border: 2px solid #ddd;
+  padding: 20px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const ContentImage = styled.img`
-  max-width: 100%;
-  max-height: 500px;
-  object-fit: cover;
+const ContentText = styled.div`
+  flex-grow: 1;
+  margin-right: 50px;
+`;
+
+const CopiedText = styled.p`
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
 `;
 
 const DeleteButton = styled.button`
-  background-color: orange;
-  color: white;
-  padding: 5px 10px;
+  background: none;
+  border: none;
   cursor: pointer;
+  img {
+    width: 20px;
+    height: auto;
+  }
 `;
 
 export default ContentItem;
